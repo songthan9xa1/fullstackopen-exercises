@@ -1,0 +1,34 @@
+sequenceDiagram
+    participant User as 👤 User
+    participant Browser as 🌐 Browser
+    participant Server as 🖥️ Server
+
+    User->>Browser: click "Save"
+    Browser->>Server: POST /new_note (form data in request body)
+    activate Server
+    Server-->>Server: notes.push({ content: req.body.note, date: new Date() })
+    Server-->>Browser: 302 Redirect (Location: /notes)
+    deactivate Server
+
+    Browser->>Server: GET /notes
+    activate Server
+    Server-->>Browser: HTML document (index of notes)
+    deactivate Server
+
+    Browser->>Server: GET /main.css
+    activate Server
+    Server-->>Browser: CSS file
+    deactivate Server
+
+    Browser->>Server: GET /main.js
+    activate Server
+    Server-->>Browser: JS file
+    deactivate Server
+
+    Note right of Browser: Browser parses HTML, applies CSS, runs JS which then:
+    Browser->>Server: GET /data.json
+    activate Server
+    Server-->>Browser: JSON array with all notes (including the new one)
+    deactivate Server
+
+    Note left of Browser: JS callback renders the note list into the DOM (no further reload)

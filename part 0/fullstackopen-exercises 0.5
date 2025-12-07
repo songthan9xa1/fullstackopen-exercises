@@ -1,0 +1,27 @@
+sequenceDiagram
+participant User as 👤 User
+participant Browser as 🌐 Browser
+participant Server as 🖥️ Server
+
+
+User->>Browser: Opens SPA URL (/exampleapp/spa)
+Browser->>Server: GET /spa (HTML)
+Server-->>Browser: index.html (links to CSS & JS)
+
+
+Browser->>Server: GET /main.css
+Server-->>Browser: CSS file
+
+
+Browser->>Server: GET /spa.js
+Server-->>Browser: JavaScript file
+
+
+Note right of Browser: Browser executes JS and renders UI
+
+
+Browser->>Server: GET /data.json
+Server-->>Browser: JSON (notes data)
+
+
+Note right of Browser: Browser renders notes from JSON

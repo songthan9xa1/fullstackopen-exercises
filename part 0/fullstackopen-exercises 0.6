@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant User as 👤 User
+    participant Browser as 🌐 Browser (SPA)
+    participant Server as 🖥️ Server
+
+    User->>Browser:  click "Save"
+    Note right of Browser: JS intercepts form submit<br/>event.preventDefault()
+
+    Browser->>Server: POST /new_note (JSON payload)
+    activate Server
+    Server-->>Server: notes.push(newNote)
+    Server-->>Browser: 201 Created + JSON (new note)
+    deactivate Server
+
+    Note right of Browser: JS updates state<br/>and re-renders note list<br/>WITHOUT reloading page
+
+    Browser->>User: Display new note
